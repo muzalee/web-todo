@@ -47,11 +47,6 @@ const v$ = useVuelidate(rules, { userEmail, userPassword })
 
 const login = async () => {
     v$.value.$touch();
-    if (v$.value.$invalid) {
-        return;
-    }
-
-    v$.value.$touch();
 
     if (v$.value.$invalid) {
         return;
@@ -73,7 +68,6 @@ const login = async () => {
         userPassword.value = '';
         v$.value.$reset();
     } catch (error: any) {
-
         Swal.fire({
             icon: 'error',
             title: 'Login Failed',

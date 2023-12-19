@@ -40,6 +40,8 @@ import AppHead from "@/components/AppHead.vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, helpers, sameAs } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const userName = ref('');
 const userEmail = ref('');
@@ -48,25 +50,46 @@ const userConfirmPassword = ref('');
 
 const passwordPattern = helpers.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
 const passwordPatternWithMessage = helpers.withMessage('Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character and at least 8', passwordPattern);
+const sameAsPassword = helpers.withMessage('Password and Confirm Password must match', sameAs(userPassword));
 
 const rules = {
     userEmail: { required, email },
     userPassword: { required, passwordPatternWithMessage },
     userName: { required },
-    userConfirmPassword: { required, sameAs: sameAs(userPassword) }
+    userConfirmPassword: { required, sameAsPassword }
 };
 
 const v$ = useVuelidate(rules, { userName, userEmail, userPassword, userConfirmPassword })
 
-const register = () => {
+const register = async () => {
     v$.value.$touch();
+
     if (v$.value.$invalid) {
         return;
     }
 
-    alert(JSON.stringify({ email: userEmail.value, password: userPassword.value }, null, 2));
-    userEmail.value = '';
-    userPassword.value = '';
-    v$.value.$reset();
+    try {
+        const response = await axios.post('/api/auth/register', {
+            name: userName.value,
+            email: userEmail.value,
+            password: userPassword.value,
+        });
+
+        localStorage.setItem('user_name', response.data.data.name);
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('token_expires_at', response.data.data.token_expires_at);
+
+        window.location.href = '/home';
+
+        userEmail.value = '';
+        userPassword.value = '';
+        v$.value.$reset();
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Register Failed',
+            text: error.response.data.errors.email || error.response.data.error || 'Something went wrong!',
+        });
+    }
 };
 </script>

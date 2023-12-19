@@ -19,21 +19,21 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
-            ], 400);
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             return response()->json([
-                'error' => 'User does not exist'
+                'error' => 'User does not exist.'
             ], 404);
         }
 
         if (! Hash::check($request->password, $user->password)) {
             return response()->json([
-                'error' => 'Invalid email or password'
+                'error' => 'Invalid email or password.'
             ], 422);
         }
 
@@ -63,8 +63,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'error' => $validator->errors(),
-            ], 400);
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $user = User::create([
