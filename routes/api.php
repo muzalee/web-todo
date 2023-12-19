@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::prefix('auth')->name('auth.')->group(function() {
+Route::prefix('auth')->name('api.auth.')->group(function() {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 

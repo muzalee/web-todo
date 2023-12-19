@@ -1,13 +1,13 @@
 <template>
-    <AppHead title="Login" />
+    <AppHead title="Register" />
     <AuthLayout
-    title="Login"
-    description="Organize your day. Log in to manage your to-dos effortlessly!"
+    title="Register"
+    description="Sign up to manage your tasks and to-dos with ease"
     >
         <div class="my-6 text-xl">
             TODO WEB APP
         </div>
-        <form @submit.prevent="login" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" novalidate>
+        <form @submit.prevent="register" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto" novalidate>
             <div class="pb-2 pt-4">
                 <input class="block w-full p-4 text-lg rounded-lg bg-black" type="email" name="email" placeholder="Email" v-model="userEmail">
                 <div v-if="v$.userEmail.$error" class="text-red-500 text-sm mt-2 text-left">{{ v$.userEmail.$errors[0].$message }}</div>
@@ -21,7 +21,7 @@
                 <button class="uppercase block w-full p-4 text-lg rounded-xl bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>
             </div>
             <div class="text-gray-400 hover:underline hover:text-gray-100 mt-3">
-                <a href="/register">Don't have an account? Sign up</a>
+                <a href="/login">Already have an account? Sign in</a>
             </div>
         </form>
     </AuthLayout>
@@ -44,7 +44,7 @@
 
  const v$ = useVuelidate(rules, { userEmail, userPassword })
 
- const login = () => {
+ const register = () => {
     v$.value.$touch();
     if (v$.value.$invalid) {
         return;
