@@ -27,5 +27,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}', [TaskController::class, 'show'])->name('detail');
         Route::get('/', [TaskController::class, 'index'])->name('list');
         Route::post('/', [TaskController::class, 'store'])->name('create');
+        Route::put('/{id}', [TaskController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TaskController::class, 'delete'])->name('delete');
+        Route::put('/{id}/complete', [TaskController::class, 'complete'])->name('complete');
     });
 });

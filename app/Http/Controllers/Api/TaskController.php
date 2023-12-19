@@ -87,4 +87,98 @@ class TaskController extends Controller
             'data' => $task,
         ], 200);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to edit this task.',
+            ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'due_date' => 'nullable|date_format:Y-m-d|after_or_equal:today',
+            'priority_id' => 'nullable|exists:task_priorities,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $task->update($request->all());
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $task,
+        ], 200);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to delete this task.',
+            ], 401);
+        }
+
+        $task->delete();
+
+        return response()->json([], 204);
+    }
+
+    public function complete(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'is_completed' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to update this task.',
+            ], 401);
+        }
+
+        $task->completed_at = $request->is_completed ? now() : null;
+        $task->save();
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $task,
+        ], 200);
+    }
+
 }
