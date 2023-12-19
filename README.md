@@ -70,4 +70,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - install laravel
 - install vue `npm install -g @vue/cli`
 - run `npm install`
+- run `composer install`
 - run migration `php artisan migrate`
+
+## To Run
+`php artisan serve`
+`npm run dev`

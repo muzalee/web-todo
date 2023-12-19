@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest.cookie')->group(function () {
+    Route::get('/', function() { return redirect()->route('auth.login'); });
+
+    Route::get('/login', function() { return Inertia::render('Auth/Login'); })->name('auth.login');
+    Route::get('/register', function() { return Inertia::render('Auth/Register'); })->name('auth.register');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('auth.cookie')->group(function () {
+    Route::get('/home', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
+});
