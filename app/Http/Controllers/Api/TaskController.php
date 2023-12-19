@@ -181,4 +181,73 @@ class TaskController extends Controller
         ], 200);
     }
 
+    public function updateDueDate(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to update this task.',
+            ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'due_date' => 'nullable|date_format:Y-m-d|after_or_equal:today',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $task->due_date = $request->due_date;
+        $task->save();
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $task,
+        ], 200);
+    }
+
+    public function archive(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'is_archived' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to update this task.',
+            ], 401);
+        }
+
+        $task->archived_at = $request->is_archived ? now() : null;
+        $task->save();
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $task,
+        ], 200);
+    }
 }

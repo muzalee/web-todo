@@ -30,5 +30,7 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [TaskController::class, 'update'])->name('update');
         Route::delete('/{id}', [TaskController::class, 'delete'])->name('delete');
         Route::put('/{id}/complete', [TaskController::class, 'complete'])->name('complete');
+        Route::put('/{id}/due-date', [TaskController::class, 'updateDueDate'])->name('due-date');
+        Route::put('/{id}/archive', [TaskController::class, 'archive'])->name('archive');
     });
 });
