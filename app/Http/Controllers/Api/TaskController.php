@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +14,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
 
-        $task = Task::find($id);
+        $task = Task::with('priority')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -37,9 +38,38 @@ class TaskController extends Controller
         $page = $request->page ?? 1;
         $perPage = 10;
         $sort = $request->sort ?? 'created_at';
-        $order = $request->order ?? 'asc';
+        $order = $request->order ?? 'desc';
 
-        $tasks = $user->tasks()->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page);
+        $completedDateStart = $request->completed_date_start ? Carbon::parse($request->completed_date_start)->startOfDay() : null;
+        $completedDateEnd = $request->completed_date_end ? Carbon::parse($request->completed_date_end)->endOfDay() : null;
+        $priority = $request->priority;
+        $dueDateStart = $request->due_date_start ? Carbon::parse($request->due_date_start)->startOfDay() : null;
+        $dueDateEnd = $request->due_date_end ? Carbon::parse($request->due_date_end)->endOfDay() : null;
+        $archivedDateStart = $request->archived_date_start ? Carbon::parse($request->archived_date_start)->startOfDay() : null;
+        $archivedDateEnd = $request->archived_date_end ? Carbon::parse($request->archived_date_end)->endOfDay() : null;
+        $search = $request->search;
+
+        $tasks = $user->tasks()
+            ->join('task_priorities', 'tasks.priority_id', '=', 'task_priorities.id')
+            ->select('tasks.*', 'task_priorities.name as priority_name')
+            ->when($completedDateStart && $completedDateEnd, function ($query) use ($completedDateStart, $completedDateEnd) {
+                $query->whereBetween('tasks.completed_at', [$completedDateStart, $completedDateEnd]);
+            })
+            ->when($priority, function ($query) use ($priority) {
+                $query->where('task_priorities.name', $priority);
+            })
+            ->when($dueDateStart && $dueDateEnd, function ($query) use ($dueDateStart, $dueDateEnd) {
+                $query->whereBetween('tasks.due_date', [$dueDateStart, $dueDateEnd]);
+            })
+            ->when($archivedDateStart && $archivedDateEnd, function ($query) use ($archivedDateStart, $archivedDateEnd) {
+                $query->whereBetween('tasks.archived_at', [$archivedDateStart, $archivedDateEnd]);
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where('tasks.title', 'like', '%' . $search . '%')
+                    ->orWhere('tasks.description', 'like', '%' . $search . '%');
+            })
+            ->orderBy($sort, $order)
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'message' => 'Success',
@@ -94,7 +124,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
 
-        $task = Task::find($id);
+        $task = Task::with('priority')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -150,19 +180,9 @@ class TaskController extends Controller
 
     public function complete(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'is_completed' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
         $user = $request->user();
 
-        $task = Task::find($id);
+        $task = Task::with('priority')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -172,6 +192,16 @@ class TaskController extends Controller
             return response()->json([
                 'error' => 'You are not authorized to update this task.',
             ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'is_completed' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $task->completed_at = $request->is_completed ? now() : null;
@@ -187,7 +217,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
 
-        $task = Task::find($id);
+        $task = Task::with('priority')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -220,19 +250,9 @@ class TaskController extends Controller
 
     public function archive(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'is_archived' => 'required|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
         $user = $request->user();
 
-        $task = Task::find($id);
+        $task = Task::with('priority')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -242,6 +262,16 @@ class TaskController extends Controller
             return response()->json([
                 'error' => 'You are not authorized to update this task.',
             ], 401);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'is_archived' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $task->archived_at = $request->is_archived ? now() : null;
