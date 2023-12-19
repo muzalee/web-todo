@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
+            'password' => ['required', 'string'],
         ]);
 
         if ($validator->fails()) {
@@ -31,26 +31,26 @@ class AuthController extends Controller
             ], 404);
         }
 
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            /** @var \App\Models\User $user */
-            $user = Auth::user();
-
-            $token = $user->createToken('todo-login')->plainTextToken;
-
-            return response()->json([
-                'message' => 'Success',
-                'data' => [
-                    'name' => $user->name,
-                    'access_token' => $token,
-                ]
-            ], 200);
-        } else {
+        if (! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'error' => 'Invalid email or password'
             ], 422);
         }
+
+        $tokenResult = $user->createToken('todo-login');
+        $plainTextToken = $tokenResult->accessToken;
+        $token = $tokenResult->token;
+        $token->expires_at = now()->addHours(8);
+        $token->save();
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => [
+                'name' => $user->name,
+                'token' => $plainTextToken,
+                'token_expires_at' => $token->expires_at->toDateTimeString(),
+            ]
+        ])->cookie('access_token', $token->id, 8*60);
     }
 
     public function register(Request $request)
@@ -73,16 +73,20 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        Auth::login($user);
+        $tokenResult = $user->createToken('todo-login');
 
-        $token = $user->createToken('todo-login')->plainTextToken;
+        $plainTextToken = $tokenResult->accessToken;
+        $token = $tokenResult->token;
+        $token->expires_at = now()->addHours(8);
+        $token->save();
 
         return response()->json([
             'message' => 'Success',
             'data' => [
                 'name' => $user->name,
-                'access_token' => $token,
+                'token' => $plainTextToken,
+                'token_expires_at' => $token->expires_at->toDateTimeString(),
             ],
-        ], 200);
+        ])->cookie('access_token', $token->id, 8*60);
     }
 }
