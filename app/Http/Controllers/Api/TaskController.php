@@ -36,8 +36,10 @@ class TaskController extends Controller
         $user = $request->user();
         $page = $request->page ?? 1;
         $perPage = 10;
+        $sort = $request->sort ?? 'created_at';
+        $order = $request->order ?? 'asc';
 
-        $tasks = $user->tasks()->paginate($perPage, ['*'], 'page', $page);
+        $tasks = $user->tasks()->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'message' => 'Success',
