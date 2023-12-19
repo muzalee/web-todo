@@ -14,7 +14,6 @@
             </div>
             <div class="pb-2 pt-4">
                 <input class="block w-full p-4 text-lg rounded-lg bg-black" type="password" name="password" placeholder="Password" v-model="userPassword">
-                <Field name="password" v-model="userPassword" />
                 <div v-if="v$.userPassword.$error" class="text-red-500 text-sm mt-2 text-left">{{ v$.userPassword.$errors[0].$message }}</div>
             </div>
             <div class="pb-2 pt-4 mt-5">
@@ -25,33 +24,34 @@
             </div>
         </form>
     </AuthLayout>
- </template>
+</template>
 
- <script setup lang="ts">
- import { ref } from 'vue';
- import AppHead from "@/components/AppHead.vue";
- import AuthLayout from "@/Layouts/AuthLayout.vue";
- import { useVuelidate } from '@vuelidate/core'
- import { required, email } from '@vuelidate/validators'
+<script setup lang="ts">
+import { ref } from 'vue';
+import AppHead from "@/components/AppHead.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
+import { useVuelidate } from '@vuelidate/core'
+import { required, email } from '@vuelidate/validators'
 
- const userEmail = ref('');
- const userPassword = ref('');
+const userEmail = ref('');
+const userPassword = ref('');
 
- const rules = {
-  userEmail: { required, email },
-  userPassword: { required }
- }
+const rules = {
+    userEmail: { required, email },
+    userPassword: { required }
+}
 
- const v$ = useVuelidate(rules, { userEmail, userPassword })
+const v$ = useVuelidate(rules, { userEmail, userPassword })
 
- const login = () => {
+const login = () => {
     v$.value.$touch();
     if (v$.value.$invalid) {
         return;
     }
+
     alert(JSON.stringify({ email: userEmail.value, password: userPassword.value }, null, 2));
     userEmail.value = '';
     userPassword.value = '';
     v$.value.$reset();
- };
- </script>
+};
+</script>
