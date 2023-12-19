@@ -9,16 +9,16 @@
         </div>
         <form action="" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
             <div class="pb-2 pt-4">
-                <input type="email" name="email" id="email" placeholder="Email" class="block w-full p-4 text-lg rounded-sm bg-black">
+                <input class="block w-full p-4 text-lg rounded-lg bg-black" type="email" name="email" id="email" placeholder="Email" required>
             </div>
             <div class="pb-2 pt-4">
-                <input class="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password">
+                <input class="block w-full p-4 text-lg rounded-lg bg-black" type="password" name="password" id="password" placeholder="Password" required>
             </div>
             <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
                 <a href="#">Forgot your password?</a>
             </div>
-            <div class="px-4 pb-2 pt-4">
-                <button class="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>
+            <div class="pb-2 pt-4 mt-5">
+                <button class="uppercase block w-full p-4 text-lg rounded-xl bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>
             </div>
         </form>
     </AuthLayout>
