@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,5 +23,5 @@ Route::middleware('guest.cookie')->group(function () {
 });
 
 Route::middleware('auth.cookie')->group(function () {
-    Route::get('/home', function() { return Inertia::render('Home'); })->name('home');
+    Route::get('/home', [App\Http\Controllers\TaskController::class, 'index'])->name('home');
 });

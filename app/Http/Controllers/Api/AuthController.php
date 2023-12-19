@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,5 +89,18 @@ class AuthController extends Controller
                 'token_expires_at' => $token->expires_at->toDateTimeString(),
             ],
         ])->cookie('access_token', $token->id, 8*60);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user) {
+            $user->tokens()->delete();
+        }
+
+        Auth::guard('web')->logout();
+
+        return response()->json([], 204)->cookie('access_token', null, -1);
     }
 }
