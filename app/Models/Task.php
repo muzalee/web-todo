@@ -24,7 +24,7 @@ class Task extends Model
         'due_date' => 'date:Y-m-d',
         'completed_at' => 'datetime',
         'archived_at' => 'datetime',
-        'deleted_at' => 'datatime',
+        'deleted_at' => 'datetime',
     ];
 
     public function user()

@@ -9,6 +9,47 @@ use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
+    public function show(Request $request, $id)
+    {
+        $user = $request->user();
+
+        $task = Task::find($id);
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (! $user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to access this task.',
+            ], 401);
+        }
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $task,
+        ], 200);
+    }
+
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        $page = $request->page ?? 1;
+        $perPage = 10;
+
+        $tasks = $user->tasks()->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'message' => 'Success',
+            'data' => $tasks->items(),
+            'meta' => [
+                'total' => $tasks->total(),
+                'current_page' => $tasks->currentPage(),
+                'last_page' => $tasks->lastPage(),
+            ],
+        ], 200);
+    }
+
     public function store(Request $request)
     {
         $user = $request->user();

@@ -24,6 +24,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
 
     Route::group(['prefix' => 'task', 'as' => 'api.task.'], function () {
+        Route::get('/{id}', [TaskController::class, 'show'])->name('detail');
+        Route::get('/', [TaskController::class, 'index'])->name('list');
         Route::post('/', [TaskController::class, 'store'])->name('create');
     });
 });
