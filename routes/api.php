@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +22,8 @@ Route::prefix('auth')->name('api.auth.')->group(function() {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
+
+    Route::group(['prefix' => 'task', 'as' => 'api.task.'], function () {
+        Route::post('/', [TaskController::class, 'store'])->name('create');
+    });
 });
