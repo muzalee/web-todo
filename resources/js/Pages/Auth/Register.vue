@@ -39,7 +39,7 @@ import { ref } from 'vue';
 import AppHead from "@/components/AppHead.vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { useVuelidate } from '@vuelidate/core'
-import { required, email, helpers } from '@vuelidate/validators';
+import { required, email, helpers, sameAs } from '@vuelidate/validators';
 
 const userName = ref('');
 const userEmail = ref('');
@@ -47,15 +47,13 @@ const userPassword = ref('');
 const userConfirmPassword = ref('');
 
 const passwordPattern = helpers.regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-const passwordPatternWithMessage = helpers.withMessage('Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character and at least 8 characters', passwordPattern);
-const sameAsPassword = (value: string) => value === userPassword.value;
-const sameAsPasswordWithMessage = helpers.withMessage('Passwords must match', sameAsPassword);
+const passwordPatternWithMessage = helpers.withMessage('Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character and at least 8', passwordPattern);
 
 const rules = {
     userEmail: { required, email },
     userPassword: { required, passwordPatternWithMessage },
     userName: { required },
-    userConfirmPassword: { required, sameAsPasswordWithMessage }
+    userConfirmPassword: { required, sameAs: sameAs(userPassword) }
 };
 
 const v$ = useVuelidate(rules, { userName, userEmail, userPassword, userConfirmPassword })

@@ -14,7 +14,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function() { return redirect()->route('auth.login'); });
+Route::middleware('guest')->group(function () {
+    Route::get('/', function() { return redirect()->route('auth.login'); });
 
-Route::get('/login', function() { return Inertia::render('Auth/Login'); })->name('auth.login');
-Route::get('/register', function() { return Inertia::render('Auth/Register'); })->name('auth.register');
+    Route::get('/login', function() { return Inertia::render('Auth/Login'); })->name('auth.login');
+    Route::get('/register', function() { return Inertia::render('Auth/Register'); })->name('auth.register');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/home', function() { return Inertia::render('Home'); })->name('home');
+});
