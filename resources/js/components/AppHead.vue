@@ -8,6 +8,6 @@
 import { Head } from "@inertiajs/vue3";
 
 const props = defineProps<{
-    title?: string
+    title?: String
 }>();
 </script>
