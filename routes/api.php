@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +22,15 @@ Route::prefix('auth')->name('api.auth.')->group(function() {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('api.auth.logout');
+
+    Route::group(['prefix' => 'task', 'as' => 'api.task.'], function () {
+        Route::get('/{id}', [TaskController::class, 'show'])->name('detail');
+        Route::get('/', [TaskController::class, 'index'])->name('list');
+        Route::post('/', [TaskController::class, 'store'])->name('create');
+        Route::put('/{id}', [TaskController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TaskController::class, 'delete'])->name('delete');
+        Route::put('/{id}/complete', [TaskController::class, 'complete'])->name('complete');
+        Route::put('/{id}/due-date', [TaskController::class, 'updateDueDate'])->name('due-date');
+        Route::put('/{id}/archive', [TaskController::class, 'archive'])->name('archive');
+    });
 });
