@@ -72,7 +72,7 @@ class TaskAttachmentController extends Controller
 
         if (! $user || $task->user->id != $user->id) {
             return response()->json([
-                'error' => 'You are not authorized to attach files to this task.',
+                'error' => 'You are not authorized to access this task.',
             ], 401);
         }
 
