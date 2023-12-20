@@ -7,3 +7,10 @@
 body {
     font-family: "Niramit", sans-serif;
 }
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}

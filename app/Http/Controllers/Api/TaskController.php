@@ -38,7 +38,7 @@ class TaskController extends Controller
         $page = $request->page ?? 1;
         $perPage = 10;
         $sort = $request->sort ?? 'created_at';
-        $order = $request->order ?? 'desc';
+        $order = $request->order ?? 'asc';
 
         $completedDateStart = $request->completed_date_start ? Carbon::parse($request->completed_date_start)->startOfDay() : null;
         $completedDateEnd = $request->completed_date_end ? Carbon::parse($request->completed_date_end)->endOfDay() : null;

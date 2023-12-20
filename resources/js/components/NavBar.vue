@@ -4,7 +4,7 @@
         <div class="relative flex h-16 items-center justify-between">
 
             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <button @click="toggleCreateModal" type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span class="absolute -inset-0.5" />
                     <span class="sr-only">Add Task</span>
                     <PlusCircleIcon class="block h-6 w-6" aria-hidden="true" />
@@ -18,7 +18,7 @@
             </div>
             <div class="hidden sm:ml-6 sm:block">
                 <div class="flex space-x-4 justify-end">
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Add Task</a>
+                    <a href="#" @click="toggleCreateModal" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Add Task</a>
                 </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -31,14 +31,21 @@
         </div>
       </div>
     </Disclosure>
+
+    <CreateTaskModal :show="showCreateModal" @close="toggleCreateModal" @taskCreated="taskCreated" />
 </template>
 
 <script setup lang="ts">
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { Disclosure } from '@headlessui/vue'
 import { ArrowRightStartOnRectangleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
 import NoteIcon from '@/images/note.png';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { ref } from 'vue';
+import CreateTaskModal from './CreateTaskModal.vue';
+
+const showCreateModal = ref(false);
+const emit = defineEmits(['taskCreated']);
 
 const logout = async () => {
     try {
@@ -61,4 +68,12 @@ const logout = async () => {
         });
     }
 };
+
+const toggleCreateModal = () => {
+    showCreateModal.value = !showCreateModal.value;
+}
+
+const taskCreated = () => {
+    emit('taskCreated');
+}
 </script>
