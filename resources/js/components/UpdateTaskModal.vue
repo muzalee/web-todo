@@ -1,10 +1,10 @@
 <template>
-    <div v-if="show" aria-hidden="true" class="modal overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div v-if="props.show" aria-hidden="true" class="modal overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-lg max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Create New Task
+                    Update Task
                 </h3>
                 <button @click="close" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <form @submit.prevent="createTask" class="p-4 md:p-5" novalidate>
+            <form @submit.prevent="updateTask" class="p-4 md:p-5" novalidate>
                 <div class="grid gap-4 mb-4 grid-cols-2">
                     <div class="col-span-2">
                         <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -41,12 +41,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end">
-                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-auto">
-                        <PlusIcon class="h-3 w-3 mr-1" aria-hidden="true" />
-                        Submit
+                <div class="flex justify-between">
+                    <button @click="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        <TrashIcon class="h-3 w-3 mr-1" aria-hidden="true" />
+                        Delete
+                    </button>
+                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <PencilIcon class="h-3 w-3 mr-1" aria-hidden="true" />
+                        Save
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -58,14 +63,16 @@ import useVuelidate from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { ref } from 'vue';
-import { PlusIcon } from '@heroicons/vue/24/outline';
+import { ref, watch } from 'vue';
+import { PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import { Task } from '@/types/task';
 
-defineProps({
+const props = defineProps({
     show: Boolean,
+    task: Task,
 });
 
-const emit = defineEmits(['close', 'taskCreated']);
+const emit = defineEmits(['close', 'taskUpdated']);
 
 const close = () => {
     emit('close');
@@ -81,9 +88,18 @@ const rules1 = {
     description: { required },
 }
 
+watch(() => props.task, (newTask) => {
+  if (newTask) {
+      title.value = newTask.title;
+      description.value = newTask.description;
+      dueDate.value = newTask.dueDate ?? '';
+      priorityId.value = newTask.priorityId?.toString() ?? '';
+  }
+});
+
 const v1$ = useVuelidate(rules1, { title, description })
 
-const createTask = async () => {
+const updateTask = async () => {
     v1$.value.$touch();
 
     if (v1$.value.$invalid) {
@@ -96,7 +112,7 @@ const createTask = async () => {
             'Authorization': `Bearer ${token}`
         };
 
-        const response = await axios.post('/api/task', {
+        const response = await axios.put(`/api/task/${props.task?.id ?? 0}`, {
             title: title.value,
             description: description.value,
             priority_id: priorityId.value === '' ? null : Number(priorityId.value),
@@ -108,13 +124,13 @@ const createTask = async () => {
         dueDate.value = '';
         priorityId.value = '';
         v1$.value.$reset();
-        emit('taskCreated');
+        emit('taskUpdated');
         emit('close');
 
         Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: `${response.data.data.title} has been created successfully.`,
+            text: `${response.data.data.title} has been updated successfully.`,
         });
     } catch (error: any) {
         Swal.fire({
@@ -123,5 +139,48 @@ const createTask = async () => {
             text: error.response.data.error || 'Something went wrong!',
         });
     }
+};
+
+const deleteTask = () => {
+   Swal.fire({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete it!',
+       cancelButtonText: 'No, cancel!',
+   }).then((result) => {
+       if (result.isConfirmed) {
+           confirmDelete();
+       }
+   });
+};
+
+const confirmDelete = async () => {
+   try {
+       const token = localStorage.getItem('token');
+       const headers = {
+           'Authorization': `Bearer ${token}`
+       };
+
+       await axios.delete(`/api/task/${props.task?.id ?? 0}`, { headers });
+
+       emit('taskUpdated');
+       emit('close');
+
+       Swal.fire({
+           icon: 'success',
+           title: 'Success',
+           text: `Task has been deleted successfully.`,
+       });
+   } catch (error: any) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops..',
+           text: error.response.data.error || 'Something went wrong!',
+       });
+   }
 };
 </script>
