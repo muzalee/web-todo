@@ -55,4 +55,29 @@ class TaskAttachmentController extends Controller
             'data' => $task->load('attachments'),
         ], 200);
     }
+
+    public function delete(Request $request, $id, $attach_id)
+    {
+        $user = $request->user();
+        $task = Task::find($id);
+        $attachment = TaskAttachment::find($attach_id);
+
+        if (!$attachment) {
+            return response()->json(['error' => 'Attachment not found.'], 404);
+        }
+
+        if (!$task) {
+            return response()->json(['error' => 'Task not found.'], 404);
+        }
+
+        if (!$user || $task->user->id != $user->id) {
+            return response()->json([
+                'error' => 'You are not authorized to attach files to this task.',
+            ], 401);
+        }
+
+        $attachment->delete();
+
+        return response()->json([], 204);
+    }
 }

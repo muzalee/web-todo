@@ -61,7 +61,7 @@
                         <div class="flex flex-wrap space-x-2">
                             <div v-for="attachment in props.task!.attachments" :key="attachment.id" class=" bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 flex items-center mb-1">
                                 {{ attachment.name }}
-                                <button @click="() => deleteAttachment(attachment.id)" class="ml-2">
+                                <button @click.prevent="() => deleteAttachment(attachment.id)" class="ml-2">
                                     <XCircleIcon class="h-5 w-5" />
                                 </button>
                                 <a :href="attachment.path" download class="ml-2">
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div class="flex justify-between">
-                    <button @click="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    <button @click.prevent="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                         <TrashIcon class="h-3 w-3 mr-1" aria-hidden="true" />
                         Delete
                     </button>
@@ -281,7 +281,35 @@ const deleteAttachment = (id: number) => {
        cancelButtonText: 'No, cancel!',
    }).then((result) => {
        if (result.isConfirmed) {
+        confirmDeleteAttachment(id);
        }
    });
+};
+
+const confirmDeleteAttachment = async (id: number) => {
+   try {
+       const token = localStorage.getItem('token');
+       const headers = {
+           'Authorization': `Bearer ${token}`
+       };
+
+       await axios.delete(`/api/task/${props.task?.id ?? 0}/attach/${id}`, { headers });
+
+       props.task!.attachments = props.task!.attachments.filter(attachment => attachment.id !== id);
+
+       emit('taskUpdated');
+
+       Swal.fire({
+           icon: 'success',
+           title: 'Success',
+           text: `Attachment has been deleted successfully.`,
+       });
+   } catch (error: any) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops..',
+           text: error.response.data.error || 'Something went wrong!',
+       });
+   }
 };
 </script>
