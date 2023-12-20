@@ -17,6 +17,7 @@ import NavBar from "@/components/NavBar.vue";
 import { onMounted, ref } from 'vue';
 import { Task } from '@/types/Task';
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const tasks = ref<Task[]>([]);
 
@@ -29,9 +30,12 @@ onMounted(async () => {
 
         const response = await axios.get('api/task', { headers });
         tasks.value = response.data.data.map((item: any) => new Task(item));
-        console.log(response.data);
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.message || error.response.data.error || 'Something went wrong!',
+        });
     }
 });
 </script>

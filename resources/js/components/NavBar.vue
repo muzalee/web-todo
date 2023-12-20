@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <button @click="logout" type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span class="absolute -inset-1.5" />
                     <span class="sr-only">Logout</span>
                     <ArrowRightStartOnRectangleIcon class="h-6 w-6" aria-hidden="true" />
@@ -33,8 +33,32 @@
     </Disclosure>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { ArrowRightStartOnRectangleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
 import NoteIcon from '@/images/note.png';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+
+const logout = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        const response = await axios.post('api/auth/logout', {}, { headers });
+        if (response.status !== 204) {
+            throw new Error('Logout failed');
+        }
+        localStorage.clear();
+        window.location.href = '/login';
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Logout Failed',
+            text: error.response.data.message || error.response.data.error || 'Something went wrong!',
+        });
+    }
+};
 </script>
