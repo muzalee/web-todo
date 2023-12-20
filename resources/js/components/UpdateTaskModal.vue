@@ -52,6 +52,24 @@
                         class="multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         />
                     </div>
+                    <div class="col-span-2">
+                        <label for="attachments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachments (Optional)</label>
+                        <input type="file" name="attachments[]" id="attachments" multiple accept=".svg, .png, .jpg, .mp4, .csv, .txt, .doc, .docx" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div v-if="(props.task?.attachments ?? []).length > 0" class="pb-2 col-span-2">
+                        <label class="block text-white text-sm font-bold mb-2">Existing Attachments:</label>
+                        <div class="flex flex-wrap space-x-2">
+                            <div v-for="attachment in props.task!.attachments" :key="attachment.id" class=" bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 flex items-center mb-1">
+                                {{ attachment.name }}
+                                <button class="ml-2">
+                                    <XCircleIcon class="h-5 w-5" />
+                                </button>
+                                <a :href="attachment.path" download class="ml-2">
+                                    <ArrowDownTrayIcon class="h-5 w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex justify-between">
                     <button @click="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
@@ -76,7 +94,7 @@ import { required } from '@vuelidate/validators';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref, watch } from 'vue';
-import { PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import { PencilIcon, TrashIcon, ArrowDownTrayIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import { Task } from '@/types/task';
 import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
@@ -191,7 +209,7 @@ const confirmDelete = async () => {
 };
 
 const updateTag = async () => {
-    console.log(tags.value);
+    await addAttachment();
     try {
         const token = localStorage.getItem('token');
         const headers = {
@@ -215,6 +233,35 @@ const updateTag = async () => {
             title: 'Success',
             text: `${response.data.data.title} has been updated successfully.`,
         });
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.error || 'Something went wrong!',
+        });
+    }
+}
+
+const addAttachment = async () => {
+    const fileInput = document.getElementById('attachments') as HTMLInputElement;
+    const files = fileInput.files;
+
+    if (files?.length == 0) return;
+
+    try {
+        const formData = new FormData();
+
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        };
+
+        for (let i = 0; i < files!.length; i++) {
+            formData.append('attachments[]', files![i]);
+        }
+
+        await axios.post(`api/task/${props.task?.id ?? 0}/attach`, formData, { headers });
     } catch (error: any) {
         Swal.fire({
             icon: 'error',

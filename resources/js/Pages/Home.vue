@@ -14,7 +14,7 @@
                 <div v-if="task.tags.length > 0" class="px-6 pb-2">
                     <label class="block text-gray-700 text-sm font-bold mb-2">Tags:</label>
                     <div class="flex flex-wrap space-x-2">
-                        <span v-for="tag in task.tags" :key="tag.id" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+                        <span v-for="tag in task.tags" :key="tag.id" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-1">
                             {{ tag.name }}
                         </span>
                     </div>
@@ -22,7 +22,7 @@
                 <div v-if="task.attachments.length > 0" class="px-6 pb-2">
                     <label class="block text-gray-700 text-sm font-bold mb-2">Attachments:</label>
                     <div class="flex flex-wrap space-x-2">
-                        <span v-for="attachment in task.attachments" :key="attachment.id" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+                        <span v-for="attachment in task.attachments" :key="attachment.id" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mb-1">
                             {{ attachment.name }}
                         </span>
                     </div>

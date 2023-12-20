@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\TaskAttachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class TaskAttachmentController extends Controller
@@ -38,13 +39,13 @@ class TaskAttachmentController extends Controller
 
         if ($request->has('attachments') && count($request->attachments) > 0) {
             foreach ($request->file('attachments') as $file) {
-                $path = $file->store('public/files');
+                $path = $file->store('public');
                 $name = $file->getClientOriginalName();
 
                 TaskAttachment::create([
                     'task_id' => $task->id,
                     'name' => $name,
-                    'path' => $path,
+                    'path' => Storage::url($path),
                 ]);
             }
         }
