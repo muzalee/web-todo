@@ -51,6 +51,10 @@
                         class="multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         />
                     </div>
+                    <div class="col-span-2">
+                        <label for="attachments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachments (Optional)</label>
+                        <input type="file" name="attachments[]" id="attachments" multiple accept=".svg, .png, .jpg, .mp4, .csv, .txt, .doc, .docx" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
                 </div>
                 <div class="flex justify-end">
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-auto">
@@ -98,6 +102,9 @@ const rules1 = {
 const v1$ = useVuelidate(rules1, { title, description })
 
 const createTask = async () => {
+    const fileInput = document.getElementById('attachments') as HTMLInputElement;
+    const files = fileInput.files;
+
     v1$.value.$touch();
 
     if (v1$.value.$invalid) {
@@ -117,7 +124,7 @@ const createTask = async () => {
             due_date: dueDate.value === '' ? null : dueDate.value,
         }, { headers });
 
-        if (tags.value.length == 0) {
+        if (tags.value.length == 0 && files?.length == 0) {
             title.value = '';
             description.value = '';
             dueDate.value = '';
@@ -133,7 +140,28 @@ const createTask = async () => {
                 text: `${response.data.data.title} has been created successfully.`,
             });
         } else {
-            addTag(response.data.data.id);
+            if (tags.value.length != 0) {
+                await addTag(response.data.data.id);
+            }
+
+            if (files?.length != 0) {
+                await addAttachment(response.data.data.id, files)
+            }
+
+            title.value = '';
+            description.value = '';
+            dueDate.value = '';
+            priorityId.value = '';
+            tags.value = [];
+            v1$.value.$reset();
+            emit('taskCreated');
+            emit('close');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: `${response.data.data.title} has been created successfully.`,
+            });
         }
     } catch (error: any) {
         Swal.fire({
@@ -151,24 +179,33 @@ const addTag = async (id: number) => {
             'Authorization': `Bearer ${token}`
         };
 
-        const response = await axios.post(`api/task/${id}/tag`, {
+        await axios.post(`api/task/${id}/tag`, {
             tags: tags.value,
         }, { headers });
-
-        title.value = '';
-        description.value = '';
-        dueDate.value = '';
-        priorityId.value = '';
-        tags.value = [];
-        v1$.value.$reset();
-        emit('taskCreated');
-        emit('close');
-
+    } catch (error: any) {
         Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: `${response.data.data.title} has been created successfully.`,
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.error || 'Something went wrong!',
         });
+    }
+}
+
+const addAttachment = async (id: number, files: any) => {
+    try {
+        const formData = new FormData();
+
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        };
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('attachments[]', files[i]);
+        }
+
+        await axios.post(`api/task/${id}/attach`, formData, { headers });
     } catch (error: any) {
         Swal.fire({
             icon: 'error',
