@@ -16,11 +16,11 @@ class TaskAttachmentController extends Controller
         $user = $request->user();
         $task = Task::find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
-        if (!$user || $task->user->id != $user->id) {
+        if (! $user || $task->user->id != $user->id) {
             return response()->json([
                 'error' => 'You are not authorized to attach files to this task.',
             ], 401);
@@ -28,7 +28,7 @@ class TaskAttachmentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'attachments' => 'required|array',
-            'attachments.*' => 'required|mimes:svg,png,jpg,mp4,csv,txt,doc,docx'
+            'attachments.*' => 'required|mimes:svg,png,jpg,mp4,csv,txt,doc,docx',
         ]);
 
         if ($validator->fails()) {
@@ -62,17 +62,17 @@ class TaskAttachmentController extends Controller
         $task = Task::find($id);
         $attachment = TaskAttachment::find($attach_id);
 
-        if (!$attachment) {
+        if (! $attachment) {
             return response()->json(['error' => 'Attachment not found.'], 404);
         }
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
-        if (!$user || $task->user->id != $user->id) {
+        if (! $user || $task->user->id != $user->id) {
             return response()->json([
-                'error' => 'You are not authorized to attach files to this task.',
+                'error' => 'You are not authorized to access this task.',
             ], 401);
         }
 

@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskAttachmentController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskTagController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\TaskTagController;
 |
 */
 
-Route::prefix('auth')->name('api.auth.')->group(function() {
+Route::prefix('auth')->name('api.auth.')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });

@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AuthenticationException) {
             return response()->json([
                 'error' => 'Unauthenticated',
-                'message' => 'You are not authorized to access this resource.'
+                'message' => 'You are not authorized to access this resource.',
             ], 401);
         }
 

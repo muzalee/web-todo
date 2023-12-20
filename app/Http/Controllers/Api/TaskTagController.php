@@ -15,11 +15,11 @@ class TaskTagController extends Controller
         $user = $request->user();
         $task = Task::find($taskId);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
-        if (!$user || $task->user->id != $user->id) {
+        if (! $user || $task->user->id != $user->id) {
             return response()->json([
                 'error' => 'You are not authorized to access this task.',
             ], 401);
@@ -54,11 +54,11 @@ class TaskTagController extends Controller
         $user = $request->user();
         $task = Task::find($taskId);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
-        if (!$user || $task->user->id != $user->id) {
+        if (! $user || $task->user->id != $user->id) {
             return response()->json([
                 'error' => 'You are not authorized to access this task.',
             ], 401);
