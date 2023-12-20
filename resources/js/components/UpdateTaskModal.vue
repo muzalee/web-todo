@@ -41,12 +41,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex justify-end">
-                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-auto">
+                <div class="flex justify-between">
+                    <button @click="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                        <TrashIcon class="h-3 w-3 mr-1" aria-hidden="true" />
+                        Delete
+                    </button>
+                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <PencilIcon class="h-3 w-3 mr-1" aria-hidden="true" />
                         Save
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
@@ -59,7 +64,7 @@ import { required, email } from '@vuelidate/validators';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref, watch } from 'vue';
-import { PencilIcon } from '@heroicons/vue/24/outline';
+import { PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import { Task } from '@/types/task';
 
 const props = defineProps({
@@ -134,5 +139,48 @@ const updateTask = async () => {
             text: error.response.data.error || 'Something went wrong!',
         });
     }
+};
+
+const deleteTask = () => {
+   Swal.fire({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete it!',
+       cancelButtonText: 'No, cancel!',
+   }).then((result) => {
+       if (result.isConfirmed) {
+           confirmDelete();
+       }
+   });
+};
+
+const confirmDelete = async () => {
+   try {
+       const token = localStorage.getItem('token');
+       const headers = {
+           'Authorization': `Bearer ${token}`
+       };
+
+       await axios.delete(`/api/task/${props.task?.id ?? 0}`, { headers });
+
+       emit('taskUpdated');
+       emit('close');
+
+       Swal.fire({
+           icon: 'success',
+           title: 'Success',
+           text: `Task has been deleted successfully.`,
+       });
+   } catch (error: any) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops..',
+           text: error.response.data.error || 'Something went wrong!',
+       });
+   }
 };
 </script>
