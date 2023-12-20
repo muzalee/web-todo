@@ -27,7 +27,7 @@
                         <div v-if="v1$.description.$error" class="text-red-500 text-sm mt-2 text-left">{{ v1$.description.$errors[0].$message }}</div>
                     </div>
                     <div class="col-span-2 sm:col-span-1">
-                        <label for="dueDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due Date</label>
+                        <label for="dueDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Due Date (Optional)</label>
                         <input v-model="dueDate" type="date" name="dueDate" id="dueDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" :min="new Date().toISOString().split('T')[0]">
                     </div>
                     <div class="col-span-2 sm:col-span-1">
@@ -39,6 +39,17 @@
                             <option value="3">Normal</option>
                             <option value="4">Low</option>
                         </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags (Optional)</label>
+                        <Multiselect
+                        v-model="tags"
+                        mode="tags"
+                        placeholder="Select tags"
+                        :createTag="true"
+                        :searchable="true"
+                        class="multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        />
                     </div>
                 </div>
                 <div class="flex justify-end">
@@ -60,6 +71,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
+import Multiselect from '@vueform/multiselect'
+import '@vueform/multiselect/themes/default.css'
 
 defineProps({
     show: Boolean,
@@ -75,6 +88,7 @@ const title = ref('');
 const description = ref('');
 const dueDate = ref('');
 const priorityId = ref('');
+const tags = ref([]);
 
 const rules1 = {
     title: { required },
@@ -103,10 +117,49 @@ const createTask = async () => {
             due_date: dueDate.value === '' ? null : dueDate.value,
         }, { headers });
 
+        if (tags.value.length == 0) {
+            title.value = '';
+            description.value = '';
+            dueDate.value = '';
+            priorityId.value = '';
+
+            v1$.value.$reset();
+            emit('taskCreated');
+            emit('close');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: `${response.data.data.title} has been created successfully.`,
+            });
+        } else {
+            addTag(response.data.data.id);
+        }
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.error || 'Something went wrong!',
+        });
+    }
+};
+
+const addTag = async (id: number) => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        const response = await axios.post(`api/task/${id}/tag`, {
+            tags: tags.value,
+        }, { headers });
+
         title.value = '';
         description.value = '';
         dueDate.value = '';
         priorityId.value = '';
+        tags.value = [];
         v1$.value.$reset();
         emit('taskCreated');
         emit('close');
@@ -123,5 +176,5 @@ const createTask = async () => {
             text: error.response.data.error || 'Something went wrong!',
         });
     }
-};
+}
 </script>
