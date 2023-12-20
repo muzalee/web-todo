@@ -1,5 +1,5 @@
 export class TaskAttachment {
-    id: string;
+    id: number;
     name: string;
     path: string;
 

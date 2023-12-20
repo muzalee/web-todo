@@ -61,7 +61,7 @@
                         <div class="flex flex-wrap space-x-2">
                             <div v-for="attachment in props.task!.attachments" :key="attachment.id" class=" bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 flex items-center mb-1">
                                 {{ attachment.name }}
-                                <button class="ml-2">
+                                <button @click="() => deleteAttachment(attachment.id)" class="ml-2">
                                     <XCircleIcon class="h-5 w-5" />
                                 </button>
                                 <a :href="attachment.path" download class="ml-2">
@@ -128,8 +128,6 @@ watch(() => props.task, (newTask) => {
         dueDate.value = newTask.dueDate ?? '';
         priorityId.value = newTask.priorityId?.toString() ?? '';
         tags.value = newTask.tags.map(e => e.name);
-
-        console.log(tags.value);
     }
 });
 
@@ -270,4 +268,20 @@ const addAttachment = async () => {
         });
     }
 }
+
+const deleteAttachment = (id: number) => {
+   Swal.fire({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete it!',
+       cancelButtonText: 'No, cancel!',
+   }).then((result) => {
+       if (result.isConfirmed) {
+       }
+   });
+};
 </script>

@@ -1,5 +1,5 @@
 export class TaskTag {
-    id: string;
+    id: number;
     name: string;
 
     constructor(data: any) {
