@@ -50,7 +50,7 @@ class TaskController extends Controller
         $search = $request->search;
 
         $tasks = $user->tasks()
-            ->join('task_priorities', 'tasks.priority_id', '=', 'task_priorities.id')
+            ->leftJoin('task_priorities', 'tasks.priority_id', '=', 'task_priorities.id')
             ->select('tasks.*', 'task_priorities.name as priority_name')
             ->when($completedDateStart && $completedDateEnd, function ($query) use ($completedDateStart, $completedDateEnd) {
                 $query->whereBetween('tasks.completed_at', [$completedDateStart, $completedDateEnd]);
