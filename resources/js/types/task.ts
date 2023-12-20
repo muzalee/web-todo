@@ -1,3 +1,4 @@
+import { TaskAttachment } from "./attachment";
 import { TaskTag } from "./tag";
 
 export class Task {
@@ -10,6 +11,7 @@ export class Task {
     completedAt: string | null;
     archivedAt: string | null;
     tags: TaskTag[];
+    attachments: TaskAttachment[];
 
     constructor(data: any) {
         this.id = data.id;
@@ -21,5 +23,6 @@ export class Task {
         this.completedAt = data.completed_at;
         this.archivedAt = data.archived_at;
         this.tags = data.tags ?? [];
+        this.attachments = data.attachments ?? [];
     }
 }
