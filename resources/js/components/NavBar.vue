@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { Disclosure } from '@headlessui/vue'
-import { ArrowRightStartOnRectangleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline'
+import { ArrowRightStartOnRectangleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
 import NoteIcon from '@/images/note.png';
 import Swal from 'sweetalert2';
 import axios from 'axios';

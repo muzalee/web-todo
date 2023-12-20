@@ -3,7 +3,7 @@
     <NavBar @taskCreated="changePage(1)" />
     <div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 py-5 sm:px-6">
-            <div v-for="task in tasks" :key="task.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer flex flex-col">
+            <div v-for="task in tasks" :key="task.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer flex flex-col" @click="handleTaskClick(task)">
                 <div class="px-6 py-4 flex-1">
                     <div class="font-bold text-xl mb-1">{{ task.title }}</div>
                     <p class="text-gray-800 text-lg">{{ task.description }}</p>
@@ -53,6 +53,8 @@
             </div>
         </div>
     </div>
+
+    <UpdateTaskModal :show="showUpdateModal" @close="toggleUpdateModal" @taskUpdated="changePage(1)" :task="selectedTask!" />
 </template>
 
 <script setup lang="ts">
@@ -62,11 +64,14 @@ import { onMounted, ref } from 'vue';
 import { Task } from '@/types/task';
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid';
+import UpdateTaskModal from '@/components/UpdateTaskModal.vue';
 
 const tasks = ref<Task[]>([]);
 const currentPage = ref(1);
 const meta = ref({ total: 0, last_page: 1 });
+const showUpdateModal = ref(false);
+const selectedTask = ref<Task | null>(null);
 
 onMounted(async () => {
     await changePage(currentPage.value);
@@ -93,6 +98,8 @@ const changePage = async (page: number) => {
 };
 
 const handleTaskClick = (task: Task) => {
+    selectedTask.value = task;
+    toggleUpdateModal();
 };
 
 const markAsComplete = (task: Task) => {
@@ -100,4 +107,8 @@ const markAsComplete = (task: Task) => {
 
 const archiveRestore = (task: Task) => {
 };
+
+const toggleUpdateModal = () => {
+    showUpdateModal.value = !showUpdateModal.value;
+}
 </script>
