@@ -2,6 +2,7 @@
     <AppHead title="Home" />
     <NavBar @taskCreated="changePage(1, true)" />
     <SortTask @sortOptionSelected="updateSortBy" @sortDirectionToggled="updateSortOrder" />
+    <FilterTask @searchTask="searchTask" />
     <div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 py-5 sm:px-6">
             <div v-for="task in tasks" :key="task.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer flex flex-col" @click="handleTaskClick(task)">
@@ -82,6 +83,7 @@ import Swal from 'sweetalert2';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid';
 import UpdateTaskModal from '@/components/UpdateTaskModal.vue';
 import SortTask from '@/components/SortTask.vue';
+import FilterTask from '@/components/FilterTask.vue';
 
 const tasks = ref<Task[]>([]);
 const currentPage = ref(1);
@@ -90,6 +92,7 @@ const showUpdateModal = ref(false);
 const selectedTask = ref<Task | null>(null);
 const sort = ref<String | null>(null);
 const order = ref<String | null>(null);
+let filterData: FilterData | null = null;
 
 onMounted(async () => {
     try {
@@ -109,6 +112,7 @@ const changePage = (page: number, isRefresh: boolean) => {
     if (isRefresh) {
         sort.value = null;
         order.value = null;
+        filterData = null;
     }
     getTasks();
 };
@@ -125,6 +129,14 @@ const getTasks = async () => {
                 page: currentPage.value,
                 sort: sort.value,
                 order: order.value,
+                completed_date_start: filterData?.completedDateStart,
+                completed_date_end: filterData?.completedDateEnd,
+                priority: filterData?.priority === '' ? null : filterData?.priority,
+                due_date_start: filterData?.dueDateStart,
+                due_date_end: filterData?.dueDateEnd,
+                archived_date_start: filterData?.archivedDateStart,
+                archived_date_end: filterData?.archivedDateEnd,
+                search: filterData?.searchQuery,
             }
         });
         tasks.value = response.data.data.map((item: any) => new Task(item));
@@ -196,6 +208,11 @@ const updateSortBy = (val: string) => {
 
 const updateSortOrder = (val: string) => {
    order.value = val;
+   changePage(1, false)
+};
+
+const searchTask = (val: FilterData) => {
+   filterData = val;
    changePage(1, false)
 };
 </script>
