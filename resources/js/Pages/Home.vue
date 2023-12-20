@@ -15,7 +15,7 @@
                 </div>
                 <div class="flex justify-end">
                     <button @click.stop="markAsComplete(task)" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">Mark as {{ task.completedAt !== null && task.completedAt !== '' ? 'Todo' : 'Complete' }}</button>
-                    <button @click.stop="archiveRestore(task)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">{{ task.archivedAt !== null && task.archivedAt !== '' ? 'Restore' : 'Restore' }}</button>
+                    <button @click.stop="archiveRestore(task)" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">{{ task.archivedAt !== null && task.archivedAt !== '' ? 'Restore' : 'Archive' }}</button>
                 </div>
             </div>
         </div>
@@ -102,11 +102,48 @@ const handleTaskClick = (task: Task) => {
     toggleUpdateModal();
 };
 
-const markAsComplete = (task: Task) => {
+const markAsComplete = async (task: Task) => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        await axios.put(`/api/task/${task.id}/complete`, {
+            is_completed: !task.completedAt
+        }, { headers });
+
+        await changePage(currentPage.value);
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.message || error.response.data.error || 'Something went wrong!',
+        });
+    }
 };
 
-const archiveRestore = (task: Task) => {
+const archiveRestore = async (task: Task) => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        await axios.put(`/api/task/${task.id}/archive`, {
+            is_archived: !task.archivedAt
+        }, { headers });
+
+        await changePage(currentPage.value);
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.message || error.response.data.error || 'Something went wrong!',
+        });
+    }
 };
+
 
 const toggleUpdateModal = () => {
     showUpdateModal.value = !showUpdateModal.value;
