@@ -1,12 +1,12 @@
 <template>
     <AppHead title="Home" />
-    <NavBar />
+    <NavBar @taskCreated="changePage(1)" />
     <div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 py-5 sm:px-6">
             <div v-for="task in tasks" :key="task.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer flex flex-col">
                 <div class="px-6 py-4 flex-1">
-                    <div class="font-bold text-xl mb-2">{{ task.title }}</div>
-                    <p class="text-gray-700 text-base">{{ task.description }}</p>
+                    <div class="font-bold text-xl mb-1">{{ task.title }}</div>
+                    <p class="text-gray-800 text-lg">{{ task.description }}</p>
                     <p class="text-gray-700 text-base">Priority: {{ task.priorityName ?? '-' }}</p>
                     <p class="text-gray-700 text-base">Due Date: {{ task.dueDate ?? '-' }}</p>
                 </div>
@@ -19,7 +19,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
             <div class="flex flex-1 justify-between sm:hidden">
@@ -60,7 +59,7 @@
 import AppHead from "@/components/AppHead.vue";
 import NavBar from "@/components/NavBar.vue";
 import { onMounted, ref } from 'vue';
-import { Task } from '@/types/Task';
+import { Task } from '@/types/task';
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
