@@ -16,3 +16,6 @@ A web app generated in laravel and vue3
 
 ## Storage
 `php artisan storage:link`
+
+## API Documentations
+Visit [this link](https://documenter.getpostman.com/view/23199052/2s9Ykq6fLb) for the live documentation

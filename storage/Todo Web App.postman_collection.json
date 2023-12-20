@@ -1,0 +1,2342 @@
+{
+	"info": {
+		"_postman_id": "f5987300-fb59-4b5f-9b79-acc257290f1f",
+		"name": "Todo Web App",
+		"description": "Todo Web App API Collection:\n\n- Developed by Muza Fadli\n    \n- Developed with laravel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23199052",
+		"_collection_link": "https://lively-crater-806815.postman.co/workspace/1fab7a4b-b30c-4a27-8681-538fd8d9dfd7/collection/23199052-f5987300-fb59-4b5f-9b79-acc257290f1f?action=share&source=collection_link&creator=23199052"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "",
+									"description": "Required. Must be valid email address",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "Required. Min 8 Character",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/auth/login",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "test@mail.com",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"name\": \"test\",\r\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNmNlMjI0MjIyZDg2NmM2MWQwZjE5ZGE5OGQ1YWQxNTU2NGZiNzc1ZjViMzVlN2UzYjRmNzllZWVmNWVmY2U5MTAxMWM4MDdkYTVlZjllZTEiLCJpYXQiOjE3MDMwNzUyOTUuNTcyMzExLCJuYmYiOjE3MDMwNzUyOTUuNTcyMzIxLCJleHAiOjE3MzQ2OTc2OTUuNDQxOTI5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q0X28b_fjeK07lh02Eka9DVidikQl-SrtGnnvuLQKgGM8EIxGT-XPEzNQ1Wh3tDW8Z4hzLPYdauCK7R8KCGZ0-qHbGRJ_HdAkVvybMfqUPsvx23vD6FELe3OkHhO1ZEt8QCdu_ZGvlDaCbztHWnP6yYxBYeN1KZzQE6UI4QoGddHCEl5ySHm4F6yV0VI0Y8qXMZEohe3ckoj1EaT_IWl1ulXvC2CgaZrjj0OFYR0OBRVua02yhuFClIMwgxTzbMzSLgt7A7WQgzLppO7N_xkWotfbXqu-qmGXwvPsUMRQg8j6PzlkRL36-ZJcGXAONNSq5l_pxGIt9UVvuPctAH72f6QMiuqIZsRdvOjeBMq6bXBwnpuxa9i6m6I1Utebon9gY-pESv-gVWFtQio8IZozMIX-yBWVSOWCHGBG-ByK9AZews7QCdBclrDDr8VywP9za2li78JtFm2cQYZfBG1_aI2ikq6-SderdeuYSfRf4SW6suzrdiftNpbkVQ1BsTqAZWoq3mwfwTXJ8aPN1I-3hSSO7HxIvrV9ySWrTot1EZ9LQWd2JhhUEgVKyXluBZlsws3PSg6CLwlWSmbKL1sh2jtKoYP_mpMZis2t0G8AKtSv-s3WVvJYcr3rptU91-Tua2RH1gKQX03V8VNbG5hhMoqW_vk-IE401E8Q0fnykQ\",\r\n        \"token_expires_at\": \"2023-12-21 04:28:15\"\r\n    }\r\n}"
+						},
+						{
+							"name": "Invalid Email or Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"email\": [\r\n            \"The email field is required.\"\r\n        ],\r\n        \"password\": [\r\n            \"The password field is required.\"\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "Email Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "test.none@mail.com",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/login",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"User does not exist.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "",
+									"description": "Required. Must be valid email address",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "Required. Min 8 Character",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"description": "Required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/auth/register",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "test@mail.com",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "test",
+											"description": "Required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/register",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"name\": \"test\",\r\n        \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNmNlMjI0MjIyZDg2NmM2MWQwZjE5ZGE5OGQ1YWQxNTU2NGZiNzc1ZjViMzVlN2UzYjRmNzllZWVmNWVmY2U5MTAxMWM4MDdkYTVlZjllZTEiLCJpYXQiOjE3MDMwNzUyOTUuNTcyMzExLCJuYmYiOjE3MDMwNzUyOTUuNTcyMzIxLCJleHAiOjE3MzQ2OTc2OTUuNDQxOTI5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.Q0X28b_fjeK07lh02Eka9DVidikQl-SrtGnnvuLQKgGM8EIxGT-XPEzNQ1Wh3tDW8Z4hzLPYdauCK7R8KCGZ0-qHbGRJ_HdAkVvybMfqUPsvx23vD6FELe3OkHhO1ZEt8QCdu_ZGvlDaCbztHWnP6yYxBYeN1KZzQE6UI4QoGddHCEl5ySHm4F6yV0VI0Y8qXMZEohe3ckoj1EaT_IWl1ulXvC2CgaZrjj0OFYR0OBRVua02yhuFClIMwgxTzbMzSLgt7A7WQgzLppO7N_xkWotfbXqu-qmGXwvPsUMRQg8j6PzlkRL36-ZJcGXAONNSq5l_pxGIt9UVvuPctAH72f6QMiuqIZsRdvOjeBMq6bXBwnpuxa9i6m6I1Utebon9gY-pESv-gVWFtQio8IZozMIX-yBWVSOWCHGBG-ByK9AZews7QCdBclrDDr8VywP9za2li78JtFm2cQYZfBG1_aI2ikq6-SderdeuYSfRf4SW6suzrdiftNpbkVQ1BsTqAZWoq3mwfwTXJ8aPN1I-3hSSO7HxIvrV9ySWrTot1EZ9LQWd2JhhUEgVKyXluBZlsws3PSg6CLwlWSmbKL1sh2jtKoYP_mpMZis2t0G8AKtSv-s3WVvJYcr3rptU91-Tua2RH1gKQX03V8VNbG5hhMoqW_vk-IE401E8Q0fnykQ\",\r\n        \"token_expires_at\": \"2023-12-21 04:28:15\"\r\n    }\r\n}"
+						},
+						{
+							"name": "Invalid Email or Password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "",
+											"description": "Required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/register",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"name\": [\r\n            \"The name field is required.\"\r\n        ],\r\n        \"email\": [\r\n            \"The email field is required.\"\r\n        ],\r\n        \"password\": [\r\n            \"The password field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/auth/logout",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/auth/logout",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "test@mail.com",
+											"description": "Required. Must be valid email address",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"description": "Required. Min 8 Character",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "test",
+											"description": "Required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/auth/logout",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						}
+					]
+				}
+			],
+			"description": "1. Login\n    \n2. Register\n    \n3. Logout"
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/task?page&sort&order&completed_date_start&completed_date_end&priority&due_date_start&due_date_end&archived_date_start&archived_date_end&search",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": null,
+									"description": "default: 1, for pagination"
+								},
+								{
+									"key": "sort",
+									"value": null,
+									"description": "optional, default: created_at, for sorting"
+								},
+								{
+									"key": "order",
+									"value": null,
+									"description": "optional, default: asc, for sorting"
+								},
+								{
+									"key": "completed_date_start",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "completed_date_end",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "priority",
+									"value": null,
+									"description": "optional, for filter, options: urgent, high, normal, low"
+								},
+								{
+									"key": "due_date_start",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "due_date_end",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "archived_date_start",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "archived_date_end",
+									"value": null,
+									"description": "optional, for filter, format: y-m-d"
+								},
+								{
+									"key": "search",
+									"value": null,
+									"description": "optional, for filter, will filter title and description"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": [\r\n        {\r\n            \"id\": 4,\r\n            \"user_id\": 1,\r\n            \"title\": \"test 3\",\r\n            \"description\": \"test2\",\r\n            \"due_date\": \"2023-12-21\",\r\n            \"priority_id\": null,\r\n            \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n            \"updated_at\": \"2023-12-20T06:52:11.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [\r\n                {\r\n                    \"id\": 16,\r\n                    \"task_id\": 4,\r\n                    \"name\": \"tag2\",\r\n                    \"created_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                    \"deleted_at\": null\r\n                }\r\n            ],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"user_id\": 1,\r\n            \"title\": \"test 3\",\r\n            \"description\": \"test2\",\r\n            \"due_date\": null,\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T03:38:56.000000Z\",\r\n            \"updated_at\": \"2023-12-20T03:38:56.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"user_id\": 1,\r\n            \"title\": \"testaad\",\r\n            \"description\": \"teasd\",\r\n            \"due_date\": \"2023-12-21\",\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T06:06:47.000000Z\",\r\n            \"updated_at\": \"2023-12-20T06:06:47.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"user_id\": 1,\r\n            \"title\": \"Add task\",\r\n            \"description\": \"testing\",\r\n            \"due_date\": null,\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T06:11:39.000000Z\",\r\n            \"updated_at\": \"2023-12-20T06:11:39.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"user_id\": 1,\r\n            \"title\": \"add pr\",\r\n            \"description\": \"priotityu teting\",\r\n            \"due_date\": null,\r\n            \"priority_id\": 3,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T06:14:38.000000Z\",\r\n            \"updated_at\": \"2023-12-20T06:14:38.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": \"Normal\",\r\n            \"tags\": [\r\n                {\r\n                    \"id\": 5,\r\n                    \"task_id\": 8,\r\n                    \"name\": \"sadasdas\",\r\n                    \"created_at\": \"2023-12-20T08:23:39.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T08:23:39.000000Z\",\r\n                    \"deleted_at\": null\r\n                }\r\n            ],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"user_id\": 1,\r\n            \"title\": \"Test atg\",\r\n            \"description\": \"tag add here\",\r\n            \"due_date\": null,\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T08:12:54.000000Z\",\r\n            \"updated_at\": \"2023-12-20T08:12:54.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [\r\n                {\r\n                    \"id\": 7,\r\n                    \"task_id\": 9,\r\n                    \"name\": \"test\",\r\n                    \"created_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"deleted_at\": null\r\n                },\r\n                {\r\n                    \"id\": 8,\r\n                    \"task_id\": 9,\r\n                    \"name\": \"asdasd\",\r\n                    \"created_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"deleted_at\": null\r\n                },\r\n                {\r\n                    \"id\": 9,\r\n                    \"task_id\": 9,\r\n                    \"name\": \"asda\",\r\n                    \"created_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T08:28:21.000000Z\",\r\n                    \"deleted_at\": null\r\n                }\r\n            ],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"user_id\": 1,\r\n            \"title\": \"sdasd\",\r\n            \"description\": \"sfefaf\",\r\n            \"due_date\": null,\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T08:24:06.000000Z\",\r\n            \"updated_at\": \"2023-12-20T08:24:06.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [\r\n                {\r\n                    \"id\": 6,\r\n                    \"task_id\": 10,\r\n                    \"name\": \"safehyy\",\r\n                    \"created_at\": \"2023-12-20T08:24:06.000000Z\",\r\n                    \"updated_at\": \"2023-12-20T08:24:06.000000Z\",\r\n                    \"deleted_at\": null\r\n                }\r\n            ],\r\n            \"attachments\": []\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"user_id\": 1,\r\n            \"title\": \"Add Attachmetn\",\r\n            \"description\": \"testing attachment\",\r\n            \"due_date\": null,\r\n            \"priority_id\": null,\r\n            \"completed_at\": null,\r\n            \"archived_at\": null,\r\n            \"created_at\": \"2023-12-20T09:12:03.000000Z\",\r\n            \"updated_at\": \"2023-12-20T09:12:03.000000Z\",\r\n            \"deleted_at\": null,\r\n            \"priority_name\": null,\r\n            \"tags\": [],\r\n            \"attachments\": []\r\n        }\r\n    ],\r\n    \"meta\": {\r\n        \"total\": 8,\r\n        \"current_page\": 1,\r\n        \"last_page\": 1\r\n    }\r\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/6",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"6"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 6,\r\n        \"user_id\": 1,\r\n        \"title\": \"testaad\",\r\n        \"description\": \"teasd\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": null,\r\n        \"archived_at\": null,\r\n        \"created_at\": \"2023-12-20T06:06:47.000000Z\",\r\n        \"updated_at\": \"2023-12-20T06:06:47.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"priority\": null,\r\n        \"tags\": [],\r\n        \"attachments\": [],\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        }\r\n    }\r\n}"
+						},
+						{
+							"name": "Unauthenticated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/4",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Did Not Exist",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/90",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"90"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Test Add",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Add Description Here",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "due_date",
+									"value": "2023-12-30",
+									"description": "optional, format: y-m-d, must be greater than now",
+									"type": "text"
+								},
+								{
+									"key": "priority_id",
+									"value": "2",
+									"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "due_date",
+											"value": "2023-10-21",
+											"description": "optional, format: y-m-d, must be greater than now",
+											"type": "text"
+										},
+										{
+											"key": "priority_id",
+											"value": "8",
+											"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"title\": [\r\n            \"The title field is required.\"\r\n        ],\r\n        \"description\": [\r\n            \"The description field is required.\"\r\n        ],\r\n        \"due_date\": [\r\n            \"The due date field must be a date after or equal to today.\"\r\n        ],\r\n        \"priority_id\": [\r\n            \"The selected priority id is invalid.\"\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "due_date",
+											"value": "2023-10-21",
+											"description": "optional, format: y-m-d, must be greater than now",
+											"type": "text"
+										},
+										{
+											"key": "priority_id",
+											"value": "8",
+											"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"user_id\": 1,\r\n        \"title\": \"Test Add\",\r\n        \"description\": \"Add Description Here\",\r\n        \"due_date\": \"2023-12-30\",\r\n        \"priority_id\": \"2\",\r\n        \"updated_at\": \"2023-12-20T12:58:35.000000Z\",\r\n        \"created_at\": \"2023-12-20T12:58:35.000000Z\",\r\n        \"id\": 12\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Test Edit",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Edited description here",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "due_date",
+									"value": "2023-12-30",
+									"description": "optional, format: y-m-d, must be greater than now",
+									"type": "text"
+								},
+								{
+									"key": "priority_id",
+									"value": "",
+									"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "Test Edit",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Edited description here",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "due_date",
+											"value": "2023-12-30",
+											"description": "optional, format: y-m-d, must be greater than now",
+											"type": "text"
+										},
+										{
+											"key": "priority_id",
+											"value": "",
+											"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/12",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"12"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/40",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"40"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "title",
+											"value": "",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "due_date",
+											"value": "2023-12-01",
+											"description": "optional, format: y-m-d, must be greater than now",
+											"type": "text"
+										},
+										{
+											"key": "priority_id",
+											"value": "",
+											"description": "optional, urgent: 1, high: 2, normal: 3, low: 4",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/12",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"12"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"title\": [\r\n            \"The title field is required.\"\r\n        ],\r\n        \"description\": [\r\n            \"The description field is required.\"\r\n        ],\r\n        \"due_date\": [\r\n            \"The due date field must be a date after or equal to today.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/1",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/8",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"8"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/90",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"90"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Archive",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "is_archived",
+									"value": "1",
+									"description": "required, 1: archive 0: restore",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/archive",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"archive"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "is_archived",
+											"value": "1",
+											"description": "required, 1: archive 0: restore",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/archive",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"archive"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"priority\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        }\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/archive",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"archive"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/archive",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"archive"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "is_archived",
+											"value": "",
+											"description": "required, 1: archive 0: restore",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/archive",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"archive"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"is_archived\": [\r\n            \"The is archived field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Mark as Complete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "is_completed",
+									"value": "1",
+									"description": "required, 1: complete 0: todo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/complete",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"complete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "is_archived",
+											"value": "1",
+											"description": "required, 1: archive 0: restore",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/complete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"complete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"priority\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        }\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/complete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"complete"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/complete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"complete"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "is_archived",
+											"value": "",
+											"description": "required, 1: archive 0: restore",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/complete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"complete"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"is_completed\": [\r\n            \"The is completed field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Due Date",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "due_date",
+									"value": "2023-12-30",
+									"description": "optional, format: y-m-d, must be greater than now",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/due-date",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"due-date"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "due_date",
+											"value": "2023-12-30",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/due-date",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"due-date"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-30\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"priority\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        }\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/due-date",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"due-date"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/due-date",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"due-date"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "due-date",
+											"value": "2023-01-12",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/due-date",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"due-date"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"due_date\": [\r\n            \"The due date field must be a date after or equal to today.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Attach Files",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "attachments[]",
+									"description": "required, array, must be file format",
+									"type": "file",
+									"src": "/C:/Users/muza/Downloads/Full-Stack Coding Challenge.docx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/attach",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"attach"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "due_date",
+											"value": "2023-12-30",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/attach",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"attach"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Files have been attached successfully.\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        },\r\n        \"attachments\": [\r\n            {\r\n                \"id\": 2,\r\n                \"task_id\": 4,\r\n                \"name\": \"Full-Stack Coding Challenge.docx\",\r\n                \"path\": \"/storage/cXwFj1KfY7oBdetluTWlizh48thlUi4EmmhfCaGs.docx\",\r\n                \"created_at\": \"2023-12-20T13:22:43.000000Z\",\r\n                \"updated_at\": \"2023-12-20T13:22:43.000000Z\",\r\n                \"deleted_at\": null\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/attach",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"attach"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/attach",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"attach"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/attach",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"attach"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"attachments\": [\r\n            \"The attachments field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete File",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/attach/{{attach-id}}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"attach",
+								"{{attach-id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/4/attach/1",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"attach",
+										"1"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/attach/12",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"attach",
+										"12"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/attach/1",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"attach",
+										"1"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Tags",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tags[]",
+									"value": "test-tag",
+									"description": "required, array",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/tag",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"tag"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "tags",
+											"value": "test-tag",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"tag"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        },\r\n        \"tags\": [\r\n            {\r\n                \"id\": 16,\r\n                \"task_id\": 4,\r\n                \"name\": \"tag2\",\r\n                \"created_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                \"updated_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                \"deleted_at\": null\r\n            },\r\n            {\r\n                \"id\": 17,\r\n                \"task_id\": 4,\r\n                \"name\": \"test-tag\",\r\n                \"created_at\": \"2023-12-20T13:30:39.000000Z\",\r\n                \"updated_at\": \"2023-12-20T13:30:39.000000Z\",\r\n                \"deleted_at\": null\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"tag"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"tag"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "tags[]",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"tag"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"tags\": [\r\n            \"The tags field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Tags",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tags[]",
+									"value": "",
+									"description": "optinal, array, if empty will delete all tags for this task",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/api/task/{{id}}/tag",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"task",
+								"{{id}}",
+								"tag"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "tags",
+											"value": "test-tag",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"tag"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Success\",\r\n    \"data\": {\r\n        \"id\": 4,\r\n        \"user_id\": 1,\r\n        \"title\": \"test 3\",\r\n        \"description\": \"test2\",\r\n        \"due_date\": \"2023-12-21\",\r\n        \"priority_id\": null,\r\n        \"completed_at\": \"2023-12-20T06:51:41.000000Z\",\r\n        \"archived_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"created_at\": \"2023-12-20T03:37:26.000000Z\",\r\n        \"updated_at\": \"2023-12-20T13:13:39.000000Z\",\r\n        \"deleted_at\": null,\r\n        \"user\": {\r\n            \"id\": 1,\r\n            \"name\": \"test\",\r\n            \"email\": \"test@mail.com\",\r\n            \"email_verified_at\": null,\r\n            \"created_at\": \"2023-12-19T05:36:11.000000Z\",\r\n            \"updated_at\": \"2023-12-19T05:36:11.000000Z\"\r\n        },\r\n        \"tags\": [\r\n            {\r\n                \"id\": 16,\r\n                \"task_id\": 4,\r\n                \"name\": \"tag2\",\r\n                \"created_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                \"updated_at\": \"2023-12-20T10:00:02.000000Z\",\r\n                \"deleted_at\": null\r\n            },\r\n            {\r\n                \"id\": 17,\r\n                \"task_id\": 4,\r\n                \"name\": \"test-tag\",\r\n                \"created_at\": \"2023-12-20T13:30:39.000000Z\",\r\n                \"updated_at\": \"2023-12-20T13:30:39.000000Z\",\r\n                \"deleted_at\": null\r\n            }\r\n        ]\r\n    }\r\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/80/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"80",
+										"tag"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Task not found.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/task/2/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"2",
+										"tag"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						},
+						{
+							"name": "Invalid Data",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "tags[]",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base-url}}/api/task/4/tag",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"task",
+										"4",
+										"tag"
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"errors\": {\r\n        \"tags\": [\r\n            \"The tags field is required.\"\r\n        ]\r\n    }\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Archive",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/api/archive-task/delete",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"api",
+								"archive-task",
+								"delete"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/archive-task/delete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"archive-task",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Old archived tasks have been deleted successfully.\"\r\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/api/archive-task/delete",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"archive-task",
+										"delete"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"error\": \"Unauthenticated\",\r\n    \"message\": \"You are not authorized to access this resource.\"\r\n}"
+						}
+					]
+				}
+			],
+			"description": "1. List\n2. Detail\n3. Create\n4. Update\n5. Delete\n6. Archive\n7. Mark as Complete\n8. Update Due Date\n9. Attach Files\n10. Delete File\n    \n11. Add Tags\n12. Update Tags\n13. Delete Old Archived Tasks: Archived tasks more than one week will be deleted"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "bearer-token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
