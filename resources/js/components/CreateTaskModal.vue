@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref } from 'vue';
@@ -88,7 +88,7 @@ const title = ref('');
 const description = ref('');
 const dueDate = ref('');
 const priorityId = ref('');
-const tags = ref([]);
+const tags = ref<string[]>([]);
 
 const rules1 = {
     title: { required },
