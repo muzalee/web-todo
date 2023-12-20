@@ -18,7 +18,7 @@ class AuthenticateCookie
 
         $accessToken = Passport::token()->where('id', $cookieToken)->first();
 
-        if (!$accessToken || $accessToken->expires_at <= now()) {
+        if (! $accessToken || $accessToken->expires_at <= now()) {
             return redirect()->route('auth.login');
         }
 

@@ -16,7 +16,7 @@ class TaskController extends Controller
 
         $task = Task::with('priority', 'tags', 'attachments')->find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
@@ -65,8 +65,8 @@ class TaskController extends Controller
                 $query->whereBetween('tasks.archived_at', [$archivedDateStart, $archivedDateEnd]);
             })
             ->when($search, function ($query) use ($search) {
-                $query->where('tasks.title', 'like', '%' . $search . '%')
-                    ->orWhere('tasks.description', 'like', '%' . $search . '%');
+                $query->where('tasks.title', 'like', '%'.$search.'%')
+                    ->orWhere('tasks.description', 'like', '%'.$search.'%');
             })
             ->orderBy($sort, $order)
             ->with('tags', 'attachments')
@@ -90,7 +90,7 @@ class TaskController extends Controller
         if (! $user) {
             return response()->json([
                 'error' => 'Unauthenticated',
-                'message' => 'You are not authorized to access this resource.'
+                'message' => 'You are not authorized to access this resource.',
             ], 401);
         }
 
@@ -127,7 +127,7 @@ class TaskController extends Controller
 
         $task = Task::with('priority')->find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
@@ -164,7 +164,7 @@ class TaskController extends Controller
 
         $task = Task::find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
@@ -185,7 +185,7 @@ class TaskController extends Controller
 
         $task = Task::with('priority')->find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
@@ -220,7 +220,7 @@ class TaskController extends Controller
 
         $task = Task::with('priority')->find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 
@@ -255,7 +255,7 @@ class TaskController extends Controller
 
         $task = Task::with('priority')->find($id);
 
-        if (!$task) {
+        if (! $task) {
             return response()->json(['error' => 'Task not found.'], 404);
         }
 

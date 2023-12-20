@@ -26,15 +26,15 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
-                'error' => 'User does not exist.'
+                'error' => 'User does not exist.',
             ], 404);
         }
 
         if (! Hash::check($request->password, $user->password)) {
             return response()->json([
-                'error' => 'Invalid email or password.'
+                'error' => 'Invalid email or password.',
             ], 422);
         }
 
@@ -50,8 +50,8 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'token' => $plainTextToken,
                 'token_expires_at' => $token->expires_at->toDateTimeString(),
-            ]
-        ])->cookie('access_token', $token->id, 8*60);
+            ],
+        ])->cookie('access_token', $token->id, 8 * 60);
     }
 
     public function register(Request $request)
@@ -88,7 +88,7 @@ class AuthController extends Controller
                 'token' => $plainTextToken,
                 'token_expires_at' => $token->expires_at->toDateTimeString(),
             ],
-        ])->cookie('access_token', $token->id, 8*60);
+        ])->cookie('access_token', $token->id, 8 * 60);
     }
 
     public function logout(Request $request)
