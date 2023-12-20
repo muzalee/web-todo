@@ -13,8 +13,8 @@ export class Task {
       this.title = data.title;
       this.description = data.description;
       this.dueDate = data.due_date;
-      this.priorityId = data.priorityId ?? data.priority?.id;
-      this.priorityName = data.priorityName ?? data.priority?.name;
+      this.priorityId = data.priority_id ?? data.priority?.id;
+      this.priorityName = data.priority_name ?? data.priority?.name;
       this.completedAt = data.completed_at;
       this.archivedAt = data.archived_at;
     }
