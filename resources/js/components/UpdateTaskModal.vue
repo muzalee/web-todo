@@ -40,9 +40,39 @@
                             <option value="4">Low</option>
                         </select>
                     </div>
+                    <div class="col-span-2">
+                        <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tags (Optional)</label>
+                        <Multiselect
+                        v-model="tags"
+                        :options="tags"
+                        mode="tags"
+                        placeholder="Select tags"
+                        :createTag="true"
+                        :searchable="true"
+                        class="multiselect bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="attachments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachments (Optional)</label>
+                        <input type="file" name="attachments[]" id="attachments" multiple accept=".svg, .png, .jpg, .mp4, .csv, .txt, .doc, .docx" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div v-if="(props.task?.attachments ?? []).length > 0" class="pb-2 col-span-2">
+                        <label class="block text-white text-sm font-bold mb-2">Existing Attachments:</label>
+                        <div class="flex flex-wrap space-x-2">
+                            <div v-for="attachment in props.task!.attachments" :key="attachment.id" class=" bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 flex items-center mb-1">
+                                {{ attachment.name }}
+                                <button @click.prevent="() => deleteAttachment(attachment.id)" class="ml-2">
+                                    <XCircleIcon class="h-5 w-5" />
+                                </button>
+                                <a :href="attachment.path" download class="ml-2">
+                                    <ArrowDownTrayIcon class="h-5 w-5" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="flex justify-between">
-                    <button @click="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    <button @click.prevent="deleteTask" type="button" class="text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                         <TrashIcon class="h-3 w-3 mr-1" aria-hidden="true" />
                         Delete
                     </button>
@@ -60,12 +90,14 @@
 
 <script setup lang="ts">
 import useVuelidate from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ref, watch } from 'vue';
-import { PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import { PencilIcon, TrashIcon, ArrowDownTrayIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import { Task } from '@/types/task';
+import Multiselect from '@vueform/multiselect'
+import '@vueform/multiselect/themes/default.css'
 
 const props = defineProps({
     show: Boolean,
@@ -82,6 +114,7 @@ const title = ref('');
 const description = ref('');
 const dueDate = ref('');
 const priorityId = ref('');
+const tags = ref<string[]>([]);
 
 const rules1 = {
     title: { required },
@@ -89,12 +122,13 @@ const rules1 = {
 }
 
 watch(() => props.task, (newTask) => {
-  if (newTask) {
-      title.value = newTask.title;
-      description.value = newTask.description;
-      dueDate.value = newTask.dueDate ?? '';
-      priorityId.value = newTask.priorityId?.toString() ?? '';
-  }
+    if (newTask) {
+        title.value = newTask.title;
+        description.value = newTask.description;
+        dueDate.value = newTask.dueDate ?? '';
+        priorityId.value = newTask.priorityId?.toString() ?? '';
+        tags.value = newTask.tags.map(e => e.name);
+    }
 });
 
 const v1$ = useVuelidate(rules1, { title, description })
@@ -112,26 +146,14 @@ const updateTask = async () => {
             'Authorization': `Bearer ${token}`
         };
 
-        const response = await axios.put(`/api/task/${props.task?.id ?? 0}`, {
+        await axios.put(`/api/task/${props.task?.id ?? 0}`, {
             title: title.value,
             description: description.value,
             priority_id: priorityId.value === '' ? null : Number(priorityId.value),
             due_date: dueDate.value === '' ? null : dueDate.value,
         }, { headers });
 
-        title.value = '';
-        description.value = '';
-        dueDate.value = '';
-        priorityId.value = '';
-        v1$.value.$reset();
-        emit('taskUpdated');
-        emit('close');
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: `${response.data.data.title} has been updated successfully.`,
-        });
+        updateTag();
     } catch (error: any) {
         Swal.fire({
             icon: 'error',
@@ -174,6 +196,113 @@ const confirmDelete = async () => {
            icon: 'success',
            title: 'Success',
            text: `Task has been deleted successfully.`,
+       });
+   } catch (error: any) {
+       Swal.fire({
+           icon: 'error',
+           title: 'Oops..',
+           text: error.response.data.error || 'Something went wrong!',
+       });
+   }
+};
+
+const updateTag = async () => {
+    await addAttachment();
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        const response = await axios.put(`api/task/${props.task?.id ?? 0}/tag`, {
+            tags: tags.value,
+        }, { headers });
+
+        title.value = '';
+        description.value = '';
+        dueDate.value = '';
+        priorityId.value = '';
+        v1$.value.$reset();
+        emit('taskUpdated');
+        emit('close');
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: `${response.data.data.title} has been updated successfully.`,
+        });
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.error || 'Something went wrong!',
+        });
+    }
+}
+
+const addAttachment = async () => {
+    const fileInput = document.getElementById('attachments') as HTMLInputElement;
+    const files = fileInput.files;
+
+    if (files?.length == 0) return;
+
+    try {
+        const formData = new FormData();
+
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        };
+
+        for (let i = 0; i < files!.length; i++) {
+            formData.append('attachments[]', files![i]);
+        }
+
+        await axios.post(`api/task/${props.task?.id ?? 0}/attach`, formData, { headers });
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops..',
+            text: error.response.data.error || 'Something went wrong!',
+        });
+    }
+}
+
+const deleteAttachment = (id: number) => {
+   Swal.fire({
+       title: 'Are you sure?',
+       text: "You won't be able to revert this!",
+       icon: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: 'Yes, delete it!',
+       cancelButtonText: 'No, cancel!',
+   }).then((result) => {
+       if (result.isConfirmed) {
+        confirmDeleteAttachment(id);
+       }
+   });
+};
+
+const confirmDeleteAttachment = async (id: number) => {
+   try {
+       const token = localStorage.getItem('token');
+       const headers = {
+           'Authorization': `Bearer ${token}`
+       };
+
+       await axios.delete(`/api/task/${props.task?.id ?? 0}/attach/${id}`, { headers });
+
+       props.task!.attachments = props.task!.attachments.filter(attachment => attachment.id !== id);
+
+       emit('taskUpdated');
+
+       Swal.fire({
+           icon: 'success',
+           title: 'Success',
+           text: `Attachment has been deleted successfully.`,
        });
    } catch (error: any) {
        Swal.fire({

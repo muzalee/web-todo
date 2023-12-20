@@ -14,3 +14,8 @@ body {
     justify-content: center;
     min-height: 100vh;
 }
+
+.multiselect input {
+    background-color: transparent;
+}
+

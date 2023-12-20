@@ -14,7 +14,7 @@ class TaskController extends Controller
     {
         $user = $request->user();
 
-        $task = Task::with('priority')->find($id);
+        $task = Task::with('priority', 'tags', 'attachments')->find($id);
 
         if (!$task) {
             return response()->json(['error' => 'Task not found.'], 404);
@@ -69,6 +69,7 @@ class TaskController extends Controller
                     ->orWhere('tasks.description', 'like', '%' . $search . '%');
             })
             ->orderBy($sort, $order)
+            ->with('tags', 'attachments')
             ->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([

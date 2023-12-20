@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\Api\TaskAttachmentController;
+use App\Http\Controllers\Api\TaskTagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +34,10 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}/complete', [TaskController::class, 'complete'])->name('complete');
         Route::put('/{id}/due-date', [TaskController::class, 'updateDueDate'])->name('due-date');
         Route::put('/{id}/archive', [TaskController::class, 'archive'])->name('archive');
+        Route::post('/{id}/tag', [TaskTagController::class, 'store'])->name('tag.add');
+        Route::put('/{id}/tag', [TaskTagController::class, 'update'])->name('tag.update');
+        Route::post('/{id}/attach', [TaskAttachmentController::class, 'store'])->name('attach');
+        Route::delete('/{id}/attach/{attach_id}', [TaskAttachmentController::class, 'delete'])->name('attach.delete');
     });
 
     Route::post('/archive-task/delete', [TaskController::class, 'deleteOldArchivedTasks'])->name('api.delete-archive');
