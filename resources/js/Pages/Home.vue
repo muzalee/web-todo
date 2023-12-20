@@ -4,7 +4,7 @@
     <SortTask @sortOptionSelected="updateSortBy" @sortDirectionToggled="updateSortOrder" />
     <FilterTask @searchTask="searchTask" />
     <div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-4 py-5 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-5 sm:px-6">
             <div v-for="task in tasks" :key="task.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300 cursor-pointer flex flex-col" @click="handleTaskClick(task)">
                 <div class="px-6 py-4 flex-1">
                     <div class="font-bold text-xl mb-1">{{ task.title }}</div>
