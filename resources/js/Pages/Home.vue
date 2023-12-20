@@ -74,6 +74,15 @@ const showUpdateModal = ref(false);
 const selectedTask = ref<Task | null>(null);
 
 onMounted(async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const headers = {
+            'Authorization': `Bearer ${token}`
+        };
+
+        await axios.post('api/archive-task/delete', {}, { headers });
+    } catch (_) {}
+
     await changePage(currentPage.value);
 });
 

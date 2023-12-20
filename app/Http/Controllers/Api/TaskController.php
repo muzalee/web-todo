@@ -282,4 +282,15 @@ class TaskController extends Controller
             'data' => $task,
         ], 200);
     }
+
+    public function deleteOldArchivedTasks()
+    {
+        $oneWeekAgo = Carbon::now()->subWeek();
+
+        Task::where('archived_at', '<=', $oneWeekAgo)->delete();
+
+        return response()->json([
+            'message' => 'Old archived tasks have been deleted successfully.',
+        ], 200);
+    }
 }
