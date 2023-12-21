@@ -13,6 +13,7 @@
 - Run: `composer install`
 - Run migration: `php artisan migrate`
 - Run seeding: `php artisan db:seed`
+- Run `php artisan passport:install`
 - Run `php artisan storage:link` for local storage to upload files
 
 ## To Run

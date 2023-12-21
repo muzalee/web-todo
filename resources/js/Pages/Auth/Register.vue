@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppHead from "@/components/AppHead.vue";
-import AuthLayout from "@/layouts/AuthLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, helpers, sameAs } from '@vuelidate/validators';
 import Swal from 'sweetalert2';
